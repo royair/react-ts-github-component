@@ -8,13 +8,11 @@ interface Props extends React.HTMLAttributes<HTMLDivElement> {
   level?: 1 | 2 | 3 | 4 | 5
   date?: Dayjs
   commits?: number
-  isDimmed: boolean
+  isDimmed?: boolean
   withTooltip?: boolean
 }
 
 export const Day: FC<Props> = ({level = 1, date, commits, isDimmed = false, withTooltip = true, ...rest}) => {
-  console.log(isDimmed)
-
   return (
       <Tooltip
           {...(withTooltip ? undefined : {open: false})}
@@ -31,9 +29,17 @@ const Container = styled.div`
   width: 14px;
   height: 14px;
   border-radius: 2px;
+  opacity: 1;
+  transition: all 0.3s ease-in;
 
-  .isDimmed {
-    opacity: 0.5;
+  @keyframes fadeOut {
+    0% { opacity: 1;}
+    99% { opacity: 0.01;width: 100%; height: 100%;}
+    100% { opacity: 0;width: 0; height: 0;}
   }
+
+  &.isDimmed {
+    opacity: 0.2;
+  }    
 `
 

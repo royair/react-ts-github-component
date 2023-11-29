@@ -92,12 +92,11 @@ export const Calendar = ({commitDates}: {
                 <div
                     style={{display: 'flex', justifyContent: "end", gap: 5, marginTop: 10}}>
 
-                  {map([1, 2, 3, 4, 5], (index) => (
+                  {map([1, 2, 3, 4, 5], (index: 1 | 2 | 3 | 4 | 5) => (
                       <Day
                           key={index}
                           withTooltip={false}
-                          isDimmed={false}
-                          level={1}
+                          level={index}
                           onMouseEnter={() => setHoveredLevel(index)}
                           onMouseLeave={() => setHoveredLevel(undefined)}
                       />
