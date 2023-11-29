@@ -5,12 +5,16 @@ import * as dayjs from "dayjs";
 
 import {Day} from "./Day.tsx";
 
+const WEEKS = 52;
 const DAYS = 7;
 const DATE_TEMPLATE = 'DD-MM-YYYY';
 
-export const Calendar = ({commitDates}: { commitDates: Date[] }) => {
+export const Calendar = ({commitDates}: {
+  commitDates: Date[]
+}) => {
   const [maxCommits, setMaxCommits] = useState(0);
   const [calendarArr, setCalendarArr] = useState(new Array(DAYS))
+  const [hoveredLevel, setHoveredLevel] = useState<number | undefined>(undefined)
 
   const getLevel = (commits: number) => {
     const percentage = commits / maxCommits
@@ -60,7 +64,6 @@ export const Calendar = ({commitDates}: { commitDates: Date[] }) => {
     setMaxCommits(tmpMaxCommits)
   }, [commitDates])
 
-
   return (
       <Container>
         <table>
@@ -74,6 +77,7 @@ export const Calendar = ({commitDates}: { commitDates: Date[] }) => {
                             : <Day
                                 date={day.date}
                                 commits={day.commits}
+                                isDimmed={hoveredLevel ? hoveredLevel !== getLevel(day.commits) : false}
                                 level={getLevel(day.commits)}
                             />
                         }
@@ -82,6 +86,26 @@ export const Calendar = ({commitDates}: { commitDates: Date[] }) => {
                 </tr>
             ))}
           </tbody>
+          <tfoot>
+            <tr style={{color: 'gray', textAlign: "end"}}>
+              <td colSpan={WEEKS}>
+                <div
+                    style={{display: 'flex', justifyContent: "end", gap: 5, marginTop: 10}}>
+
+                  {map([1, 2, 3, 4, 5], (index) => (
+                      <Day
+                          key={index}
+                          withTooltip={false}
+                          isDimmed={false}
+                          level={1}
+                          onMouseEnter={() => setHoveredLevel(index)}
+                          onMouseLeave={() => setHoveredLevel(undefined)}
+                      />
+                  ))}
+                </div>
+              </td>
+            </tr>
+          </tfoot>
         </table>
       </Container>
   );
