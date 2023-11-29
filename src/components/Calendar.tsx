@@ -38,6 +38,7 @@ export const Calendar = ({commitDates}: { commitDates: Date[] }) => {
           : commitDatesMap.set(dateFormatted, {commits: 1})
     })
 
+    // init calendar's array template
     map(new Array(364), (_item, index) => {
       const date = dayjs(firstDay).add(index, 'days')
       const dateFormatted = date.format(DATE_TEMPLATE)
